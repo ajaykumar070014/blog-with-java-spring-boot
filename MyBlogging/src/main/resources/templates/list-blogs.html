@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Blog List</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}"/>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .navbar {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px;
+            display: inline-block;
+        }
+        .navbar a:hover {
+            background-color: #575757;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .blog {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: box-shadow 0.3s ease;
+        }
+        .blog:hover {
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .blog-title {
+            font-size: 1.5em;
+            color: #007bff;
+            padding: 15px;
+            margin: 0;
+            cursor: pointer;
+            border-bottom: 1px solid #ddd;
+        }
+        .blog-title:hover {
+            background-color: #e7f0ff;
+        }
+        .blog-content {
+            display: none;
+            padding: 15px;
+        }
+        .blog-description {
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        .blog img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .blog-metadata {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #555;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1em;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <a href="/" th:href="@{/blogs}">Blogs</a>
+    <a href="/admin/blogs/create" th:href="@{/admin/blogs/create}">Write Blog</a>
+    <a href="/admin/blogs" th:href="@{/admin/blogs}">Edit Blogs</a>
+</div>
+
+<div class="container">
+    <h1>Blog Posts</h1>
+    <a href="/admin/blogs/create" class="back-link">Create New Blog</a>
+    <div th:each="blog : ${blogs}" class="blog">
+        <h2 class="blog-title" th:utext="${blog.title}" onclick="toggleContent(this)"></h2>
+        <div class="blog-content">
+            <div class="blog-description" th:utext="${blog.description}"></div>
+            <div class="blog-metadata">
+                <p>Created At: <span th:text="${#temporals.format(blog.createAt, 'dd MMM yyyy HH:mm')}"></span></p>
+                <p>Updated At: <span th:text="${#temporals.format(blog.updateAt, 'dd MMM yyyy HH:mm')}"></span></p>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function toggleContent(titleElement) {
+        var contentElement = titleElement.nextElementSibling;
+        if (contentElement.style.display === 'block') {
+            contentElement.style.display = 'none';
+        } else {
+            contentElement.style.display = 'block';
+        }
+    }
+</script>
+</body>
+</html>
